@@ -34,9 +34,9 @@
               class="merge-slider vue-slider-dot-tooltip-inner"
               :class="inner(index, start, end)"
             >
-              <span class="label">JOPA</span>
+              <span class="label">{{ get_label(index) }}</span>
               <span class="percentage">
-                {{ value[index + 1] - value[index] }}%
+                {{ (value[index + 1] - value[index]).toFixed(0) }}%
               </span>
             </div>
           </div>
@@ -73,7 +73,7 @@ export default {
   },
   data: function () {
     return {
-      value: [0, 50, 75, 100],
+      value: [0, 33.33333, 66.666, 100],
       rail: {
         background: "gray",
         "border-radius": "0px",
@@ -95,9 +95,34 @@ export default {
           },
         },
         colors: ["black", "blue", "orange"],
+        title: {
+          text: "Distribution of answers",
+        },
+        xAxis: {
+          categories: ["from 0 to 3", "from 4 to 6", "From 7 to 10"],
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: "Share (in %)",
+          },
+        },
+        legend: {
+          enabled: false,
+        },
         series: [
           {
-            data: [1, 2, 33],
+            data: [33.3333333, 33.33333333, 33.33333333],
+            dataLabels: {
+              enabled: true,
+              x: 4,
+              y: 25,
+              format: "{y:.0f}%",
+              style: {
+                fontSize: "13px",
+                fontFamily: "Verdana, sans-serif",
+              },
+            },
           },
         ],
       },
@@ -114,6 +139,10 @@ export default {
     },
   },
   methods: {
+    get_label(i) {
+      const labs = ["from 0 to 3", "from 4 to 6", "from 7 to 10"];
+      return labs[i];
+    },
     x() {
       return this.value;
     },
@@ -129,7 +158,7 @@ export default {
     inner(index, s, e) {
       const classes = ["first", "second", "third"];
 
-      if (this.value[index + 1] - this.value[index] < 10) {
+      if (this.value[index + 1] - this.value[index] < 5) {
         return "inv";
       }
 
