@@ -65,6 +65,7 @@
 import VueSlider from "vue-slider-component";
 import { Chart } from "highcharts-vue";
 import "vue-slider-component/theme/default.css";
+import _ from "lodash";
 export default {
   components: {
     VueSlider,
@@ -84,6 +85,16 @@ export default {
       ],
       hcInstance: Chart,
       chartOptions: {
+        chart: {
+          type: "column",
+          margin: [50, 50, 100, 80],
+        },
+        plotOptions: {
+          column: {
+            colorByPoint: true,
+          },
+        },
+        colors: ["black", "blue", "orange"],
         series: [
           {
             data: [1, 2, 33],
@@ -94,9 +105,12 @@ export default {
   },
   watch: {
     value(newV, oldV) {
-      console.debug("NEW OLD", newV, oldV);
-      this.chartOptions.series[0].data = newV;
-      //  this.chartOptions.series[0].data: this.mySeries;
+      var result = _.map(newV, function (e, i) {
+        return newV[i + 1] - e;
+      });
+
+      result.pop();
+      this.chartOptions.series[0].data = result;
     },
   },
   methods: {
