@@ -1,51 +1,58 @@
 <template>
   <div>
     <h1>&nbsp</h1>
-    <vue-slider
-      v-model="value"
-      tooltip="none"
-      :process="process"
-      :min-range="0"
-      :tooltip-placement="['bottom', 'top', 'top', 'bottom']"
-      :dotOptions="[
-        { disabled: true, tooltip: 'none' },
-        { disabled: false, tooltip: 'none' },
-        { disabled: false, tooltip: 'none' },
-        { disabled: true, tooltip: 'none' },
-      ]"
-      :height="100"
-      :enableCross="false"
-    >
-      <template v-slot:process="{ start, end, style, index }">
-        <div
-          :class="[
-            'vue-slider-process',
-            index === 0 && 'left-radius',
-            index === 2 && 'right-radius',
-          ]"
-          :style="jopa(style, index)"
-        >
+    <div class="slider-wrapper">
+      <div class="left-wrap"></div>
+
+      <vue-slider
+        class="slider-itself"
+        :railStyle="rail"
+        v-model="value"
+        tooltip="none"
+        :process="process"
+        :min-range="0"
+        :tooltip-placement="['bottom', 'top', 'top', 'bottom']"
+        :dotOptions="[
+          { disabled: true, tooltip: 'none' },
+          { disabled: false, tooltip: 'none' },
+          { disabled: false, tooltip: 'none' },
+          { disabled: true, tooltip: 'none' },
+        ]"
+        :height="100"
+        :enableCross="false"
+      >
+        <template v-slot:process="{ start, end, style, index }">
           <div
-            class="merge-slider vue-slider-dot-tooltip-inner"
-            :class="inner(index, start, end)"
+            :class="[
+              'vue-slider-process',
+              index === 0 && 'left-radius',
+              index === 2 && 'right-radius',
+            ]"
+            :style="jopa(style, index)"
           >
-            <span class="label">JOPA</span>
-            <span class="percentage">
-              {{ value[index + 1] - value[index] }}%
-            </span>
+            <div
+              class="merge-slider vue-slider-dot-tooltip-inner"
+              :class="inner(index, start, end)"
+            >
+              <span class="label">JOPA</span>
+              <span class="percentage">
+                {{ value[index + 1] - value[index] }}%
+              </span>
+            </div>
           </div>
-        </div>
-      </template>
-      <template v-slot:dot="{ pos, index }">
-        <div :class="sliderStyle(pos, index)">
-          <img
-            src="https://animesonar.com/slider-arrows.svg"
-            height="80%"
-            width="80%"
-          />
-        </div>
-      </template>
-    </vue-slider>
+        </template>
+        <template v-slot:dot="{ pos, index }">
+          <div :class="sliderStyle(pos, index)">
+            <img
+              src="https://animesonar.com/slider-arrows.svg"
+              height="80%"
+              width="80%"
+            />
+          </div>
+        </template>
+      </vue-slider>
+      <div class="right-wrap"></div>
+    </div>
     <highcharts
       :options="chartOptions"
       :updateArgs="[true, true, true]"
@@ -66,7 +73,10 @@ export default {
   data: function () {
     return {
       value: [0, 50, 75, 100],
-
+      rail: {
+        background: "gray",
+        "border-radius": "0px",
+      },
       process: (val) => [
         [val[0], val[1]],
         [val[1], val[2]],
@@ -122,6 +132,27 @@ export default {
 </script>
 
 <style>
+.left-wrap {
+  background: black;
+  border-radius: 50px 0px 0px 50px !important;
+  width: 50px;
+  margin: 7px 0px;
+}
+.right-wrap {
+  background: orange;
+  border-radius: 0px 50px 50px 0px !important;
+  width: 50px;
+  margin: 7px 0px;
+}
+.slider-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.slider-itself {
+  flex-grow: 1;
+}
+
 .vue-slider-process {
   display: flex;
   justify-content: center;
@@ -129,10 +160,10 @@ export default {
   border-radius: 0px 0px 0px 0px !important;
 }
 .left-radius {
-  border-radius: 50px 0px 0px 50px !important;
+  /* border-radius: 50px 0px 0px 50px !important; */
 }
 .right-radius {
-  border-radius: 0px 50px 50px 0px !important;
+  /* border-radius: 0px 50px 50px 0px !important; */
 }
 .jjj {
   width: 30px;
