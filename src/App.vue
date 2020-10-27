@@ -2,6 +2,7 @@
   <div>
     <h1>&nbsp</h1>
     <vue-slider
+      test
       v-model="value"
       tooltip="none"
       :process="process"
