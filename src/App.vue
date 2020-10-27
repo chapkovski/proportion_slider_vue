@@ -10,7 +10,7 @@
               </v-card-title>
               <div class="px-3 pb-3">
                 Please drag the sliders below to divide it into three areas
-                based on how many people in this study have answered from 0 to
+                based on your estimate of how many people in this study have answered from 0 to
                 3, from 4 to 6, from 7 to 10 about the statement above.
               </div>
             </v-card>
@@ -53,11 +53,17 @@
                 </template>
                 <template v-slot:dot="{ pos, index }">
                   <div :class="sliderStyle(pos, index)">
-                    <img
+                    <v-icon dense class="shevron shevron-left" color="">
+                      mdi-chevron-left
+                    </v-icon>
+                    <v-icon dense class="shevron shevron-right">
+                      mdi-chevron-right
+                    </v-icon>
+                    <!-- <img
                       src="https://animesonar.com/slider-arrows.svg"
                       height="80%"
                       width="80%"
-                    />
+                    /> -->
                   </div>
                 </template>
               </vue-slider>
@@ -194,6 +200,9 @@ export default {
 </script>
 
 <style>
+.shevron {
+  margin: -3px !important;
+}
 .left-wrap {
   background: black;
   border-radius: 50px 0px 0px 50px !important;

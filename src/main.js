@@ -11,7 +11,7 @@ Vue.use(Vuetify);
 import "vuetify/dist/vuetify.min.css";
 
 new Vue({
-  vuetify: new Vuetify(),
+  vuetify: new Vuetify({ icons: { iconfont: "mdi" } }),
 
   render: (h) => h(App)
 }).$mount("#app");
