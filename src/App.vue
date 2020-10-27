@@ -1,63 +1,81 @@
 <template>
-  <div>
-    <h1>&nbsp</h1>
-    <div class="slider-wrapper">
-      <div class="left-wrap"></div>
+  <v-app>
+    <v-container justify="center" align="center">
+      <v-row justify="center" align="center">
+        <v-col lg="6">
+          <div>
+            <v-card class="my-3">
+              <v-card-title class="justify-center">
+                "I support the legalization of marijuana"
+              </v-card-title>
+              <div class="px-3 pb-3">
+                Please drag the sliders below to divide it into three areas
+                based on how many people in this study have answered from 0 to
+                3, from 4 to 6, from 7 to 10 about the statement above.
+              </div>
+            </v-card>
 
-      <vue-slider
-        class="slider-itself"
-        :railStyle="rail"
-        v-model="value"
-        tooltip="none"
-        :process="process"
-        :min-range="0"
-        :tooltip-placement="['bottom', 'top', 'top', 'bottom']"
-        :dotOptions="[
-          { disabled: true, tooltip: 'none' },
-          { disabled: false, tooltip: 'none' },
-          { disabled: false, tooltip: 'none' },
-          { disabled: true, tooltip: 'none' },
-        ]"
-        :height="100"
-        :enableCross="false"
-      >
-        <template v-slot:process="{ start, end, style, index }">
-          <div
-            :class="[
-              'vue-slider-process',
-              index === 0 && 'left-radius',
-              index === 2 && 'right-radius',
-            ]"
-            :style="jopa(style, index)"
-          >
-            <div
-              class="merge-slider vue-slider-dot-tooltip-inner"
-              :class="inner(index, start, end)"
-            >
-              <span class="label">{{ get_label(index) }}</span>
-              <span class="percentage">
-                {{ (value[index + 1] - value[index]).toFixed(0) }}%
-              </span>
+            <div class="slider-wrapper">
+              <div class="left-wrap"></div>
+
+              <vue-slider
+                class="slider-itself"
+                :railStyle="rail"
+                v-model="value"
+                tooltip="none"
+                :process="process"
+                :min-range="0"
+                :tooltip-placement="['bottom', 'top', 'top', 'bottom']"
+                :dotOptions="[
+                  { disabled: true, tooltip: 'none' },
+                  { disabled: false, tooltip: 'none' },
+                  { disabled: false, tooltip: 'none' },
+                  { disabled: true, tooltip: 'none' },
+                ]"
+                :height="100"
+                :enableCross="false"
+              >
+                <template v-slot:process="{ start, end, style, index }">
+                  <div
+                    :class="[
+                      'vue-slider-process',
+                      index === 0 && 'left-radius',
+                      index === 2 && 'right-radius',
+                    ]"
+                    :style="jopa(style, index)"
+                  >
+                    <div
+                      class="merge-slider vue-slider-dot-tooltip-inner"
+                      :class="inner(index, start, end)"
+                    >
+                      <span class="label">{{ get_label(index) }}</span>
+                      <span class="percentage">
+                        {{ (value[index + 1] - value[index]).toFixed(0) }}%
+                      </span>
+                    </div>
+                  </div>
+                </template>
+                <template v-slot:dot="{ pos, index }">
+                  <div :class="sliderStyle(pos, index)">
+                    <img
+                      src="https://animesonar.com/slider-arrows.svg"
+                      height="80%"
+                      width="80%"
+                    />
+                  </div>
+                </template>
+              </vue-slider>
+              <div class="right-wrap"></div>
             </div>
+            <highcharts
+              :options="chartOptions"
+              :updateArgs="[true, true, true]"
+            ></highcharts>
           </div>
-        </template>
-        <template v-slot:dot="{ pos, index }">
-          <div :class="sliderStyle(pos, index)">
-            <img
-              src="https://animesonar.com/slider-arrows.svg"
-              height="80%"
-              width="80%"
-            />
-          </div>
-        </template>
-      </vue-slider>
-      <div class="right-wrap"></div>
-    </div>
-    <highcharts
-      :options="chartOptions"
-      :updateArgs="[true, true, true]"
-    ></highcharts>
-  </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 
@@ -89,6 +107,7 @@ export default {
           type: "column",
           margin: [50, 50, 100, 80],
         },
+        credits: { enabled: false },
         plotOptions: {
           column: {
             colorByPoint: true,
@@ -114,9 +133,13 @@ export default {
           {
             data: [33.3333333, 33.33333333, 33.33333333],
             dataLabels: {
+              borderRadius: 5,
+              backgroundColor: "rgba(252, 255, 197, 0.7)",
+              borderWidth: 1,
+              borderColor: "#AAA",
               enabled: true,
-              x: 4,
-              y: 25,
+              x: 0,
+              y: 35,
               format: "{y:.0f}%",
               style: {
                 fontSize: "13px",
@@ -185,7 +208,8 @@ export default {
   background: orange;
   border-radius: 0px 50px 50px 0px !important;
   width: 50px;
-  margin: 7px 0px;
+  margin: 7px 0px 7px -1px;
+  z-index: 100;
 }
 .slider-wrapper {
   display: flex;
