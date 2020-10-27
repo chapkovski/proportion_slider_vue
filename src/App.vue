@@ -37,11 +37,7 @@
               >
                 <template v-slot:process="{ start, end, style, index }">
                   <div
-                    :class="[
-                      'vue-slider-process',
-                      index === 0 && 'left-radius',
-                      index === 2 && 'right-radius',
-                    ]"
+                    :class="['vue-slider-process']"
                     :style="jopa(style, index)"
                   >
                     <div
@@ -209,7 +205,7 @@ export default {
   border-radius: 0px 50px 50px 0px !important;
   width: 50px;
   margin: 7px 0px 7px -1px;
-  z-index: 100;
+  z-index: 4;
 }
 .slider-wrapper {
   display: flex;
@@ -270,7 +266,7 @@ export default {
   align-items: center;
   bottom: 0;
   margin: auto;
-  z-index: 10;
+  z-index: 1010;
   cursor: ew-resize;
   user-select: none;
 }
